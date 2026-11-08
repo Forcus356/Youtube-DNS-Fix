@@ -226,6 +226,18 @@
     color: #fff;
   }
 
+
+  .ver-tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    vertical-align: 1px;
+  }
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -417,6 +429,87 @@
   .tip-box.show {
     display: block;
   }
+
+  .fields-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .field-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-label {
+    font-size: 11.5px;
+    color: #999;
+    font-weight: 500;
+  }
+
+  .field-input {
+    width: 100%;
+    background: #0f0f0f;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 12.5px;
+    color: #e0e0e0;
+    outline: none;
+    transition: border-color 0.25s;
+  }
+
+  .field-input:focus {
+    border-color: #ff0000;
+  }
+
+  .mode-switch {
+    display: flex;
+    background: #0f0f0f;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+
+  .mode-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 9px 6px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .mode-btn:hover {
+    color: #ddd;
+    background: #1a1a1a;
+  }
+
+  .mode-btn.active {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(255,0,0,0.3);
+  }
+
+
+  .diag-line {
+    font-size: 10.5px;
+    color: #666;
+    text-align: center;
+    margin: -6px 0 14px;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+  }
 </style>
 </head>
 <body>
@@ -427,7 +520,7 @@
     </div>
     <div class="header-text">
       <h1>YouTube Фикс</h1>
-      <p>Фикс Youtube для браузеров</p>
+      <p>Фикс Youtube для браузеров<span class="ver-tag" id="verTag"></span></p>
     </div>
   </div>
 
@@ -444,10 +537,22 @@
       </label>
     </div>
 
-    <div class="status-badge off" id="statusBadge">
-      <span class="status-dot"></span>
-      <span id="statusText">Фикс выключен</span>
+    <div class="fields-row">
+      <div class="field-group">
+        <label class="field-label" for="hostInput">Сервер (IP / хост)</label>
+        <input type="text" id="hostInput" class="field-input" placeholder="127.0.0.1" value="127.0.0.1">
+      </div>
+      <div class="field-group" style="max-width: 110px;">
+        <label class="field-label" for="portInput">Порт</label>
+        <input type="number" id="portInput" class="field-input" placeholder="10808" min="1" max="65535" value="10808">
+      </div>
     </div>
+    <div class="mode-switch" id="modeSwitch" role="group" aria-label="Режим работы">
+      <button type="button" class="mode-btn" data-mode="pac">PAC — только YouTube</button>
+      <button type="button" class="mode-btn" data-mode="fixed">Весь трафик</button>
+    </div>
+
+    <div class="diag-line" id="diagLine">proxy: …</div>
 
     <div class="help-link" id="helpLink">
       <div class="help-icon">?</div>
@@ -470,7 +575,7 @@
       <button class="modal-btn" id="parseBtn">Найти настройки автоматически</button>
       <div class="error-msg" id="errorMsg"></div>
       <div class="tip-box" id="tipBox">
-        💡 Нет программы для обхода блокировок? Попробуйте Happ или INCY — они работают с этим расширением.
+        💡 Нет программы для обхода блокировок? Попробуйте Happ или INCY - они работают с этим расширением.
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Фикс",
-  "version": "1.1",
+  "version": "1.5",
   "description": "Фикс YouTube для браузеров через локальный SOCKS5 прокси",
   "permissions": ["proxy", "storage"],
   "background": {
@@ -10,8 +10,5 @@
   "action": {
     "default_popup": "popup.html",
     "default_title": "YouTube Фикс"
-  },
-  "icons": {
-    "128": "icons/icon128.png"
   }
 }
